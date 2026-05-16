@@ -15,7 +15,22 @@
       "Bash(npm install *)",
       "Bash(npx tsc *)",
       "Bash(git init *)",
-      "Bash(git add *)"
+      "Bash(git add *)",
+      "Bash(npm run *)",
+      "Bash(curl -s -o /tmp/resp.json -w '%{http_code}' https://tennis-api-atp-wta-itf.p.rapidapi.com/tennis/v2__TRACKED_VAR__ -H 'x-rapidapi-key: 60d5349922mshc15fef630f7fa59p10653ejsn82a92de84a1e' -H 'x-rapidapi-host: tennis-api-atp-wta-itf.p.rapidapi.com')",
+      "Bash(curl -s \"https://tennis-api-atp-wta-itf.p.rapidapi.com/tennis/v2/atp/ranking/singles\" -H \"x-rapidapi-key: 60d5349922mshc15fef630f7fa59p10653ejsn82a92de84a1e\" -H \"x-rapidapi-host: tennis-api-atp-wta-itf.p.rapidapi.com\")",
+      "Bash(curl -s \"https://tennis-api-atp-wta-itf.p.rapidapi.com/tennis/v2/atp/tournament/calendar/2026\" -H \"x-rapidapi-key: 60d5349922mshc15fef630f7fa59p10653ejsn82a92de84a1e\" -H \"x-rapidapi-host: tennis-api-atp-wta-itf.p.rapidapi.com\")",
+      "Bash(curl -s \"https://tennis-api-atp-wta-itf.p.rapidapi.com/tennis/v2/atp/tournament/calendar/2025\" -H \"x-rapidapi-key: 60d5349922mshc15fef630f7fa59p10653ejsn82a92de84a1e\" -H \"x-rapidapi-host: tennis-api-atp-wta-itf.p.rapidapi.com\")",
+      "Bash(curl -s \"https://tennis-api-atp-wta-itf.p.rapidapi.com/tennis/v2/wta/tournament/calendar/2025\" -H \"x-rapidapi-key: 60d5349922mshc15fef630f7fa59p10653ejsn82a92de84a1e\" -H \"x-rapidapi-host: tennis-api-atp-wta-itf.p.rapidapi.com\")",
+      "Bash(curl -s 'https://tennis-api-atp-wta-itf.p.rapidapi.com/tennis/v2/atp/tournament/calendar/2025?__TRACKED_VAR__' -H 'x-rapidapi-key: 60d5349922mshc15fef630f7fa59p10653ejsn82a92de84a1e' -H 'x-rapidapi-host: tennis-api-atp-wta-itf.p.rapidapi.com')",
+      "Bash(curl -s 'https://tennis-api-atp-wta-itf.p.rapidapi.com/tennis/v2/atp/tournament/calendar/2025?page=__TRACKED_VAR__' -H 'x-rapidapi-key: 60d5349922mshc15fef630f7fa59p10653ejsn82a92de84a1e' -H 'x-rapidapi-host: tennis-api-atp-wta-itf.p.rapidapi.com')",
+      "Bash(curl -s 'https://tennis-api-atp-wta-itf.p.rapidapi.com/tennis/v2/atp/tournament/calendar/2026?page=__TRACKED_VAR__' -H 'x-rapidapi-key: 60d5349922mshc15fef630f7fa59p10653ejsn82a92de84a1e' -H 'x-rapidapi-host: tennis-api-atp-wta-itf.p.rapidapi.com')",
+      "Bash(curl -s 'https://tennis-api-atp-wta-itf.p.rapidapi.com/tennis/v2/atp/tournament/calendar/2026?__TRACKED_VAR__' -H 'x-rapidapi-key: 60d5349922mshc15fef630f7fa59p10653ejsn82a92de84a1e' -H 'x-rapidapi-host: tennis-api-atp-wta-itf.p.rapidapi.com')",
+      "Bash(curl -s \"https://tennis-api-atp-wta-itf.p.rapidapi.com/tennis/v2/atp/tournament/calendar/2025?page=1\" -H \"x-rapidapi-key: 60d5349922mshc15fef630f7fa59p10653ejsn82a92de84a1e\" -H \"x-rapidapi-host: tennis-api-atp-wta-itf.p.rapidapi.com\")",
+      "Bash(curl -s \"https://tennis-api-atp-wta-itf.p.rapidapi.com/tennis/v2/atp/tournament/calendar/2025?page=2\" -H \"x-rapidapi-key: 60d5349922mshc15fef630f7fa59p10653ejsn82a92de84a1e\" -H \"x-rapidapi-host: tennis-api-atp-wta-itf.p.rapidapi.com\")",
+      "WebFetch(domain:en.wikipedia.org)",
+      "Bash(curl -s \"https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_players.csv\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/JeffSackmann/tennis_atp/master/atp_rankings_current.csv\")"
     ]
   }
 }

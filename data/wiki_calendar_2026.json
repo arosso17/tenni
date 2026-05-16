@@ -1,0 +1,1134 @@
+{
+  "tournaments": [
+    {
+      "external_id": "wiki-atp-2026-hong-kong-open-2026-01-05",
+      "name": "Hong Kong Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-01-05",
+      "end_date": "2026-01-11",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-brisbane-international-2026-01-05",
+      "name": "Brisbane International",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-01-05",
+      "end_date": "2026-01-11",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-adelaide-international-2026-01-12",
+      "name": "Adelaide International",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-01-12",
+      "end_date": "2026-01-18",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-auckland-open-2026-01-12",
+      "name": "Auckland Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-01-12",
+      "end_date": "2026-01-18",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-australian-open-2026-01-19",
+      "name": "Australian Open",
+      "tour": "ATP",
+      "category": "Slam",
+      "start_date": "2026-01-19",
+      "end_date": "2026-01-25",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-open-occitanie-2026-02-02",
+      "name": "Open Occitanie",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-02-02",
+      "end_date": "2026-02-08",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-dallas-open-2026-02-09",
+      "name": "Dallas Open",
+      "tour": "ATP",
+      "category": "500",
+      "start_date": "2026-02-09",
+      "end_date": "2026-02-15",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-rotterdam-open-2026-02-09",
+      "name": "Rotterdam Open",
+      "tour": "ATP",
+      "category": "500",
+      "start_date": "2026-02-09",
+      "end_date": "2026-02-15",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-argentina-open-2026-02-09",
+      "name": "Argentina Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-02-09",
+      "end_date": "2026-02-15",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-qatar-open-2026-02-16",
+      "name": "Qatar Open",
+      "tour": "ATP",
+      "category": "500",
+      "start_date": "2026-02-16",
+      "end_date": "2026-02-22",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-rio-open-2026-02-16",
+      "name": "Rio Open",
+      "tour": "ATP",
+      "category": "500",
+      "start_date": "2026-02-16",
+      "end_date": "2026-02-22",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-delray-beach-open-2026-02-16",
+      "name": "Delray Beach Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-02-16",
+      "end_date": "2026-02-22",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-dubai-tennis-championships-2026-02-23",
+      "name": "Dubai Tennis Championships",
+      "tour": "ATP",
+      "category": "500",
+      "start_date": "2026-02-23",
+      "end_date": "2026-03-01",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-mexican-open-2026-02-23",
+      "name": "Mexican Open",
+      "tour": "ATP",
+      "category": "500",
+      "start_date": "2026-02-23",
+      "end_date": "2026-03-01",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-chile-open-2026-02-23",
+      "name": "Chile Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-02-23",
+      "end_date": "2026-03-01",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-indian-wells-open-2026-03-02",
+      "name": "Indian Wells Open",
+      "tour": "ATP",
+      "category": "1000",
+      "start_date": "2026-03-02",
+      "end_date": "2026-03-08",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-miami-open-2026-03-16",
+      "name": "Miami Open",
+      "tour": "ATP",
+      "category": "1000",
+      "start_date": "2026-03-16",
+      "end_date": "2026-03-22",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-u-s-men-s-clay-court-championships-2026-03-30",
+      "name": "U.S. Men's Clay Court Championships",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-03-30",
+      "end_date": "2026-04-05",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-grand-prix-hassan-ii-2026-03-30",
+      "name": "Grand Prix Hassan II",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-03-30",
+      "end_date": "2026-04-05",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-romanian-open-2026-03-30",
+      "name": "Romanian Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-03-30",
+      "end_date": "2026-04-05",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-monte-carlo-masters-2026-04-06",
+      "name": "Monte-Carlo Masters",
+      "tour": "ATP",
+      "category": "1000",
+      "start_date": "2026-04-06",
+      "end_date": "2026-04-12",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-barcelona-open-2026-04-13",
+      "name": "Barcelona Open",
+      "tour": "ATP",
+      "category": "500",
+      "start_date": "2026-04-13",
+      "end_date": "2026-04-19",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-bavarian-international-tennis-championships-2026-04-13",
+      "name": "Bavarian International Tennis Championships",
+      "tour": "ATP",
+      "category": "500",
+      "start_date": "2026-04-13",
+      "end_date": "2026-04-19",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-madrid-open-2026-04-20",
+      "name": "Madrid Open",
+      "tour": "ATP",
+      "category": "1000",
+      "start_date": "2026-04-20",
+      "end_date": "2026-04-26",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-italian-open-2026-05-04",
+      "name": "Italian Open",
+      "tour": "ATP",
+      "category": "1000",
+      "start_date": "2026-05-04",
+      "end_date": "2026-05-10",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-hamburg-open-2026-05-18",
+      "name": "Hamburg Open",
+      "tour": "ATP",
+      "category": "500",
+      "start_date": "2026-05-18",
+      "end_date": "2026-05-24",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-geneva-open-2026-05-18",
+      "name": "Geneva Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-05-18",
+      "end_date": "2026-05-24",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-french-open-2026-05-25",
+      "name": "French Open",
+      "tour": "ATP",
+      "category": "Slam",
+      "start_date": "2026-05-25",
+      "end_date": "2026-05-31",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-stuttgart-open-2026-06-08",
+      "name": "Stuttgart Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-06-08",
+      "end_date": "2026-06-14",
+      "surface": "grass",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-rosmalen-championships-2026-06-08",
+      "name": "Rosmalen Championships",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-06-08",
+      "end_date": "2026-06-14",
+      "surface": "grass",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-halle-open-2026-06-15",
+      "name": "Halle Open",
+      "tour": "ATP",
+      "category": "500",
+      "start_date": "2026-06-15",
+      "end_date": "2026-06-21",
+      "surface": "grass",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-queen-s-club-championships-2026-06-15",
+      "name": "Queen's Club Championships",
+      "tour": "ATP",
+      "category": "500",
+      "start_date": "2026-06-15",
+      "end_date": "2026-06-21",
+      "surface": "grass",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-mallorca-open-2026-06-22",
+      "name": "Mallorca Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-06-22",
+      "end_date": "2026-06-28",
+      "surface": "grass",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-eastbourne-open-2026-06-22",
+      "name": "Eastbourne Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-06-22",
+      "end_date": "2026-06-28",
+      "surface": "grass",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-wimbledon-2026-06-29",
+      "name": "Wimbledon",
+      "tour": "ATP",
+      "category": "Slam",
+      "start_date": "2026-06-29",
+      "end_date": "2026-07-05",
+      "surface": "grass",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-swedish-open-2026-07-13",
+      "name": "Swedish Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-07-13",
+      "end_date": "2026-07-19",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-swiss-open-2026-07-13",
+      "name": "Swiss Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-07-13",
+      "end_date": "2026-07-19",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-croatia-open-2026-07-13",
+      "name": "Croatia Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-07-13",
+      "end_date": "2026-07-19",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-austrian-open-2026-07-20",
+      "name": "Austrian Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-07-20",
+      "end_date": "2026-07-26",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-estoril-open-2026-07-20",
+      "name": "Estoril Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-07-20",
+      "end_date": "2026-07-26",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-washington-open-2026-07-27",
+      "name": "Washington Open",
+      "tour": "ATP",
+      "category": "500",
+      "start_date": "2026-07-27",
+      "end_date": "2026-08-02",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-los-cabos-open-2026-07-27",
+      "name": "Los Cabos Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-07-27",
+      "end_date": "2026-08-02",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-canadian-open-2026-08-03",
+      "name": "Canadian Open",
+      "tour": "ATP",
+      "category": "1000",
+      "start_date": "2026-08-03",
+      "end_date": "2026-08-09",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-cincinnati-open-2026-08-10",
+      "name": "Cincinnati Open",
+      "tour": "ATP",
+      "category": "1000",
+      "start_date": "2026-08-10",
+      "end_date": "2026-08-16",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-winston-salem-open-2026-08-24",
+      "name": "Winston-Salem Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-08-24",
+      "end_date": "2026-08-30",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-us-open-2026-08-31",
+      "name": "US Open",
+      "tour": "ATP",
+      "category": "Slam",
+      "start_date": "2026-08-31",
+      "end_date": "2026-09-06",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-chengdu-open-2026-09-21",
+      "name": "Chengdu Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-09-21",
+      "end_date": "2026-09-27",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-hangzhou-open-2026-09-21",
+      "name": "Hangzhou Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-09-21",
+      "end_date": "2026-09-27",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-china-open-2026-09-28",
+      "name": "China Open",
+      "tour": "ATP",
+      "category": "500",
+      "start_date": "2026-09-28",
+      "end_date": "2026-10-04",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-japan-open-2026-09-28",
+      "name": "Japan Open",
+      "tour": "ATP",
+      "category": "500",
+      "start_date": "2026-09-28",
+      "end_date": "2026-10-04",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-shanghai-masters-2026-10-05",
+      "name": "Shanghai Masters",
+      "tour": "ATP",
+      "category": "1000",
+      "start_date": "2026-10-05",
+      "end_date": "2026-10-11",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-almaty-open-2026-10-19",
+      "name": "Almaty Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-10-19",
+      "end_date": "2026-10-25",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-grand-prix-auvergne-rh-ne-alpes-2026-10-19",
+      "name": "Grand Prix Auvergne-Rhône-Alpes",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-10-19",
+      "end_date": "2026-10-25",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-european-open-2026-10-19",
+      "name": "European Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-10-19",
+      "end_date": "2026-10-25",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-swiss-indoors-2026-10-26",
+      "name": "Swiss Indoors",
+      "tour": "ATP",
+      "category": "500",
+      "start_date": "2026-10-26",
+      "end_date": "2026-11-01",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-vienna-open-2026-10-26",
+      "name": "Vienna Open",
+      "tour": "ATP",
+      "category": "500",
+      "start_date": "2026-10-26",
+      "end_date": "2026-11-01",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-paris-masters-2026-11-02",
+      "name": "Paris Masters",
+      "tour": "ATP",
+      "category": "1000",
+      "start_date": "2026-11-02",
+      "end_date": "2026-11-08",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-stockholm-open-2026-11-09",
+      "name": "Stockholm Open",
+      "tour": "ATP",
+      "category": "250",
+      "start_date": "2026-11-09",
+      "end_date": "2026-11-15",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-atp-2026-atp-finals-2026-11-16",
+      "name": "ATP Finals",
+      "tour": "ATP",
+      "category": "Finals",
+      "start_date": "2026-11-16",
+      "end_date": "2026-11-22",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-brisbane-international-2025-12-29",
+      "name": "Brisbane International",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2025-12-29",
+      "end_date": "2026-01-05",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-auckland-open-2025-12-29",
+      "name": "Auckland Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2025-12-29",
+      "end_date": "2026-01-05",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-adelaide-international-2026-01-12",
+      "name": "Adelaide International",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2026-01-12",
+      "end_date": "2026-01-18",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-hobart-international-2026-01-12",
+      "name": "Hobart International",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-01-12",
+      "end_date": "2026-01-18",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-australian-open-2026-01-19",
+      "name": "Australian Open",
+      "tour": "WTA",
+      "category": "Slam",
+      "start_date": "2026-01-19",
+      "end_date": "2026-01-26",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-abu-dhabi-open-2026-02-02",
+      "name": "Abu Dhabi Open",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2026-02-02",
+      "end_date": "2026-02-08",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-ostrava-open-2026-02-02",
+      "name": "Ostrava Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-02-02",
+      "end_date": "2026-02-08",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-transylvania-open-2026-02-02",
+      "name": "Transylvania Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-02-02",
+      "end_date": "2026-02-08",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-qatar-open-2026-02-09",
+      "name": "Qatar Open",
+      "tour": "WTA",
+      "category": "1000",
+      "start_date": "2026-02-09",
+      "end_date": "2026-02-15",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-dubai-tennis-championships-2026-02-16",
+      "name": "Dubai Tennis Championships",
+      "tour": "WTA",
+      "category": "1000",
+      "start_date": "2026-02-16",
+      "end_date": "2026-02-22",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-m-rida-open-2026-02-23",
+      "name": "Mérida Open",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2026-02-23",
+      "end_date": "2026-03-01",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-atx-open-2026-02-23",
+      "name": "ATX Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-02-23",
+      "end_date": "2026-03-01",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-indian-wells-open-2026-03-02",
+      "name": "Indian Wells Open",
+      "tour": "WTA",
+      "category": "1000",
+      "start_date": "2026-03-02",
+      "end_date": "2026-03-09",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-miami-open-2026-03-16",
+      "name": "Miami Open",
+      "tour": "WTA",
+      "category": "1000",
+      "start_date": "2026-03-16",
+      "end_date": "2026-03-23",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-charleston-open-2026-03-30",
+      "name": "Charleston Open",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2026-03-30",
+      "end_date": "2026-04-05",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-copa-colsanitas-2026-03-30",
+      "name": "Copa Colsanitas",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-03-30",
+      "end_date": "2026-04-05",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-linz-open-2026-04-06",
+      "name": "Linz Open",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2026-04-06",
+      "end_date": "2026-04-12",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-stuttgart-open-2026-04-13",
+      "name": "Stuttgart Open",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2026-04-13",
+      "end_date": "2026-04-19",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-open-de-rouen-2026-04-13",
+      "name": "Open de Rouen",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-04-13",
+      "end_date": "2026-04-19",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-madrid-open-2026-04-20",
+      "name": "Madrid Open",
+      "tour": "WTA",
+      "category": "1000",
+      "start_date": "2026-04-20",
+      "end_date": "2026-04-27",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-italian-open-2026-05-04",
+      "name": "Italian Open",
+      "tour": "WTA",
+      "category": "1000",
+      "start_date": "2026-05-04",
+      "end_date": "2026-05-11",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-internationaux-de-strasbourg-2026-05-18",
+      "name": "Internationaux de Strasbourg",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2026-05-18",
+      "end_date": "2026-05-24",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-morocco-open-2026-05-18",
+      "name": "Morocco Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-05-18",
+      "end_date": "2026-05-24",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-french-open-2026-05-25",
+      "name": "French Open",
+      "tour": "WTA",
+      "category": "Slam",
+      "start_date": "2026-05-25",
+      "end_date": "2026-06-01",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-queen-s-club-championships-2026-06-08",
+      "name": "Queen's Club Championships",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2026-06-08",
+      "end_date": "2026-06-14",
+      "surface": "grass",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-rosmalen-championships-2026-06-08",
+      "name": "Rosmalen Championships",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-06-08",
+      "end_date": "2026-06-14",
+      "surface": "grass",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-german-open-2026-06-15",
+      "name": "German Open",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2026-06-15",
+      "end_date": "2026-06-21",
+      "surface": "grass",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-nottingham-open-2026-06-15",
+      "name": "Nottingham Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-06-15",
+      "end_date": "2026-06-21",
+      "surface": "grass",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-bad-homburg-open-2026-06-21",
+      "name": "Bad Homburg Open",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2026-06-21",
+      "end_date": "2026-06-27",
+      "surface": "grass",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-eastbourne-open-2026-06-21",
+      "name": "Eastbourne Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-06-21",
+      "end_date": "2026-06-27",
+      "surface": "grass",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-wimbledon-2026-06-29",
+      "name": "Wimbledon",
+      "tour": "WTA",
+      "category": "Slam",
+      "start_date": "2026-06-29",
+      "end_date": "2026-07-06",
+      "surface": "grass",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-ia-i-open-2026-07-13",
+      "name": "Iași Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-07-13",
+      "end_date": "2026-07-19",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-athens-open-2026-07-13",
+      "name": "Athens Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-07-13",
+      "end_date": "2026-07-19",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-hamburg-open-2026-07-20",
+      "name": "Hamburg Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-07-20",
+      "end_date": "2026-07-26",
+      "surface": "clay",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-prague-open-2026-07-20",
+      "name": "Prague Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-07-20",
+      "end_date": "2026-07-26",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-washington-open-2026-07-27",
+      "name": "Washington Open",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2026-07-27",
+      "end_date": "2026-08-02",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-memphis-classic-2026-07-27",
+      "name": "Memphis Classic",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-07-27",
+      "end_date": "2026-08-02",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-canadian-open-2026-08-03",
+      "name": "Canadian Open",
+      "tour": "WTA",
+      "category": "1000",
+      "start_date": "2026-08-03",
+      "end_date": "2026-08-10",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-cincinnati-open-2026-08-10",
+      "name": "Cincinnati Open",
+      "tour": "WTA",
+      "category": "1000",
+      "start_date": "2026-08-10",
+      "end_date": "2026-08-17",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-monterrey-open-2026-08-24",
+      "name": "Monterrey Open",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2026-08-24",
+      "end_date": "2026-08-30",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-us-open-2026-08-31",
+      "name": "US Open",
+      "tour": "WTA",
+      "category": "Slam",
+      "start_date": "2026-08-31",
+      "end_date": "2026-09-07",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-guadalajara-open-2026-09-14",
+      "name": "Guadalajara Open",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2026-09-14",
+      "end_date": "2026-09-20",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-sp-open-2026-09-14",
+      "name": "SP Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-09-14",
+      "end_date": "2026-09-20",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-singapore-open-2026-09-21",
+      "name": "Singapore Open",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2026-09-21",
+      "end_date": "2026-09-27",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-korea-open-2026-09-21",
+      "name": "Korea Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-09-21",
+      "end_date": "2026-09-27",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-china-open-2026-09-28",
+      "name": "China Open",
+      "tour": "WTA",
+      "category": "1000",
+      "start_date": "2026-09-28",
+      "end_date": "2026-10-05",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-wuhan-open-2026-10-12",
+      "name": "Wuhan Open",
+      "tour": "WTA",
+      "category": "1000",
+      "start_date": "2026-10-12",
+      "end_date": "2026-10-18",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-ningbo-open-2026-10-19",
+      "name": "Ningbo Open",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2026-10-19",
+      "end_date": "2026-10-25",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-japan-open-2026-10-19",
+      "name": "Japan Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-10-19",
+      "end_date": "2026-10-25",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-pan-pacific-open-2026-10-26",
+      "name": "Pan Pacific Open",
+      "tour": "WTA",
+      "category": "500",
+      "start_date": "2026-10-26",
+      "end_date": "2026-11-01",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-guangzhou-open-2026-10-26",
+      "name": "Guangzhou Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-10-26",
+      "end_date": "2026-11-01",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-hong-kong-open-2026-11-02",
+      "name": "Hong Kong Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-11-02",
+      "end_date": "2026-11-08",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-chennai-open-2026-11-02",
+      "name": "Chennai Open",
+      "tour": "WTA",
+      "category": "250",
+      "start_date": "2026-11-02",
+      "end_date": "2026-11-08",
+      "surface": "hard",
+      "players": []
+    },
+    {
+      "external_id": "wiki-wta-2026-wta-finals-2026-11-09",
+      "name": "WTA Finals",
+      "tour": "WTA",
+      "category": "Finals",
+      "start_date": "2026-11-09",
+      "end_date": "2026-11-15",
+      "surface": "hard",
+      "players": []
+    }
+  ]
+}
