@@ -3,6 +3,7 @@ import { revalidatePath } from 'next/cache'
 import { requireLeagueAdmin, requireLeagueMember } from '@/lib/auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import DraftRoom from '@/components/DraftRoom'
+import PickOrderEditor from '@/components/PickOrderEditor'
 
 export const dynamic = 'force-dynamic'
 
@@ -51,12 +52,13 @@ export default async function DraftPage({
         .eq('league_id', league.id),
       admin
         .from('year_long_rosters')
-        .select('user_id, tier, player_id, players(id, full_name, current_rank, current_season_points)')
+        .select('user_id, tier, player_id, drafted_at, players(id, full_name, country, current_rank, current_season_points)')
         .eq('league_id', league.id)
-        .eq('tour', tour),
+        .eq('tour', tour)
+        .order('drafted_at', { ascending: true }),
       admin
         .from('players_with_tier')
-        .select('id, full_name, current_rank, current_season_points, tier')
+        .select('id, full_name, country, current_rank, current_season_points, tier')
         .eq('tour', tour)
         .order('current_rank', { ascending: true, nullsFirst: false })
         .limit(500),
@@ -84,37 +86,12 @@ export default async function DraftPage({
     return (
       <main className="max-w-lg mx-auto px-4 py-8">
         <h1 className="text-2xl font-semibold">Set up {tour} year-long draft</h1>
-        <p className="mt-2 text-sm text-neutral-500">
-          Snake draft. Pick order applies round 1; reverses each subsequent round.
-        </p>
-        <form action={startDraft} className="mt-6 space-y-3">
-          <input type="hidden" name="slug" value={slug} />
-          <input type="hidden" name="tour" value={tour} />
-          <label className="block text-sm font-medium">Pick order</label>
-          <p className="text-xs text-neutral-500">
-            Comma-separate user IDs in order. Members in this league:
-          </p>
-          <ul className="text-xs space-y-0.5">
-            {memberRows.map((m) => (
-              <li key={m.userId}>
-                <code className="text-neutral-500">{m.userId}</code> — {m.name}
-              </li>
-            ))}
-          </ul>
-          <textarea
-            name="order"
-            required
-            rows={3}
-            defaultValue={memberRows.map((m) => m.userId).join(',')}
-            className="w-full rounded-md border border-neutral-300 dark:border-neutral-700 bg-transparent px-3 py-2 text-xs font-mono"
-          />
-          <button
-            type="submit"
-            className="w-full rounded-md bg-black text-white py-2 text-sm dark:bg-white dark:text-black"
-          >
-            Start draft
-          </button>
-        </form>
+        <PickOrderEditor
+          slug={slug}
+          tour={tour}
+          members={memberRows}
+          action={startDraft}
+        />
       </main>
     )
   }
@@ -134,6 +111,7 @@ export default async function DraftPage({
       initialRosters={(rosters ?? []).map((r) => ({
         userId: r.user_id,
         tier: r.tier,
+        draftedAt: r.drafted_at,
         player: Array.isArray(r.players) ? r.players[0] : r.players,
       })).filter((r) => r.player)}
       availablePlayers={available}

@@ -3,17 +3,19 @@
 import { useEffect, useMemo, useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { countryFlag } from '@/lib/flag'
 
 type Tour = 'ATP' | 'WTA'
 type Member = { userId: string; name: string }
 type Player = {
   id: string
   full_name: string
+  country: string | null
   current_rank: number | null
   current_season_points: number | null
   tier?: string
 }
-type Roster = { userId: string; tier: string; player: Player }
+type Roster = { userId: string; tier: string; draftedAt: string | null; player: Player }
 type Draft = {
   id: string
   status: string
@@ -21,6 +23,7 @@ type Draft = {
   current_pick: number
   tier_quota: Record<string, number>
 }
+type SortKey = 'rank' | 'points' | 'name'
 
 const TIERS = ['1-8', '9-16', '17-32', '33-50', '51-100', '100+'] as const
 
@@ -60,10 +63,12 @@ export default function DraftRoom({
   const [available, setAvailable] = useState<Player[]>(availablePlayers)
   const [activeTier, setActiveTier] = useState<(typeof TIERS)[number]>('1-8')
   const [search, setSearch] = useState('')
+  const [sortKey, setSortKey] = useState<SortKey>('rank')
   const [error, setError] = useState<string | null>(null)
+  const [showRoster, setShowRoster] = useState(false)
   const [pending, start] = useTransition()
 
-  // Realtime subscriptions.
+  // Realtime: draft state + new picks.
   useEffect(() => {
     const ch = supabase
       .channel(`draft:${draft.id}`)
@@ -94,17 +99,21 @@ export default function DraftRoom({
         (payload) => {
           const r = payload.new as Record<string, unknown>
           if (String(r.tour) !== tour) return
-          // Pull the player row, then add to roster + drop from available.
           supabase
             .from('players')
-            .select('id, full_name, current_rank, current_season_points')
+            .select('id, full_name, country, current_rank, current_season_points')
             .eq('id', String(r.player_id))
             .single()
             .then(({ data }) => {
               if (!data) return
               setRosters((rs) => [
                 ...rs,
-                { userId: String(r.user_id), tier: String(r.tier), player: data },
+                {
+                  userId: String(r.user_id),
+                  tier: String(r.tier),
+                  draftedAt: r.drafted_at ? String(r.drafted_at) : null,
+                  player: data,
+                },
               ])
               setAvailable((av) => av.filter((p) => p.id !== data.id))
             })
@@ -125,11 +134,23 @@ export default function DraftRoom({
   const tierCounts: Record<string, number> = {}
   for (const r of myPicks) tierCounts[r.tier] = (tierCounts[r.tier] ?? 0) + 1
 
-  const filteredAvailable = available.filter(
-    (p) =>
-      (p.tier ?? rankToTier(p.current_rank)) === activeTier &&
-      (!search || p.full_name.toLowerCase().includes(search.toLowerCase()))
-  )
+  const filteredAvailable = available
+    .filter(
+      (p) =>
+        (p.tier ?? rankToTier(p.current_rank)) === activeTier &&
+        (!search || p.full_name.toLowerCase().includes(search.toLowerCase()))
+    )
+    .slice()
+    .sort((a, b) => {
+      if (sortKey === 'name') return a.full_name.localeCompare(b.full_name)
+      if (sortKey === 'points') {
+        return (b.current_season_points ?? 0) - (a.current_season_points ?? 0)
+      }
+      // rank: nulls last, asc
+      const ar = a.current_rank ?? 99999
+      const br = b.current_rank ?? 99999
+      return ar - br
+    })
 
   const onPick = (player: Player) => {
     setError(null)
@@ -147,123 +168,211 @@ export default function DraftRoom({
     })
   }
 
+  const pickNumberInRound = (draft.current_pick % Math.max(draft.pick_order.length, 1)) + 1
+  const history = rosters.slice().reverse() // newest first
+
   return (
-    <main className="max-w-5xl mx-auto px-4 py-8">
-      <header className="flex items-center justify-between gap-4 flex-wrap">
-        <div>
-          <h1 className="text-xl sm:text-2xl font-semibold">
-            {tour} Year-Long Draft
-          </h1>
-          <p className="text-sm text-neutral-500">
-            {draft.status === 'completed'
-              ? 'Draft complete.'
-              : myTurn
-                ? "It's your pick."
-                : `On the clock: ${memberName(turn.userId)}`}
-            {' · '}Round {turn.round + 1}, pick {(draft.current_pick % draft.pick_order.length) + 1}
-          </p>
+    <main className="max-w-5xl mx-auto pb-24">
+      {/* Sticky on-the-clock header */}
+      <div
+        className={
+          'sticky top-0 z-20 border-b backdrop-blur ' +
+          (myTurn
+            ? 'bg-emerald-500/15 border-emerald-500/40'
+            : 'bg-white/80 dark:bg-neutral-950/80 border-neutral-200 dark:border-neutral-800')
+        }
+      >
+        <div className="px-4 py-3 flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <div className="text-[10px] uppercase tracking-wide text-neutral-500">
+              {tour} year-long · round {turn.round + 1} · pick {pickNumberInRound}
+            </div>
+            <div className="text-sm sm:text-base font-semibold truncate">
+              {draft.status === 'completed'
+                ? 'Draft complete'
+                : myTurn
+                  ? "You're on the clock"
+                  : `On the clock: ${memberName(turn.userId)}`}
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowRoster((v) => !v)}
+            className="lg:hidden rounded-md border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 text-xs"
+          >
+            {showRoster ? 'Hide' : 'Rosters'}
+          </button>
         </div>
-        <div className="text-xs text-neutral-500 flex flex-wrap gap-2">
+        {/* Pick-order strip */}
+        <div className="px-4 pb-2 flex gap-1.5 overflow-x-auto text-[11px]">
           {draft.pick_order.map((uid, i) => (
             <span
               key={uid + i}
               className={
-                'rounded px-2 py-0.5 ' +
+                'rounded px-2 py-0.5 whitespace-nowrap ' +
                 (turn.userId === uid && draft.status === 'active'
                   ? 'bg-black text-white dark:bg-white dark:text-black'
-                  : 'bg-neutral-100 dark:bg-neutral-800')
+                  : 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400')
               }
             >
               {memberName(uid)}
             </span>
           ))}
         </div>
-      </header>
+      </div>
 
       {error && (
-        <div className="mt-4 rounded-md border border-red-300 bg-red-50 dark:bg-red-950/30 px-3 py-2 text-sm text-red-700 dark:text-red-300">
+        <div className="mx-4 mt-4 rounded-md border border-red-300 bg-red-50 dark:bg-red-950/30 px-3 py-2 text-sm text-red-700 dark:text-red-300">
           {error}
         </div>
       )}
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_320px]">
+      <div className="px-4 mt-6 grid gap-8 lg:grid-cols-[1fr_320px]">
         <section>
-          <div className="flex items-center gap-2 flex-wrap">
+          {/* Tier tabs */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-1">
             {TIERS.map((t) => {
               const cap = draft.tier_quota[t] ?? 0
               const have = tierCounts[t] ?? 0
+              const full = have >= cap
               return (
                 <button
                   key={t}
                   onClick={() => setActiveTier(t)}
                   className={
-                    'rounded-md px-2.5 py-1 text-xs ' +
+                    'rounded-full px-3 py-1 text-xs whitespace-nowrap ' +
                     (t === activeTier
                       ? 'bg-black text-white dark:bg-white dark:text-black'
-                      : 'bg-neutral-100 dark:bg-neutral-800')
+                      : full
+                        ? 'bg-neutral-100 dark:bg-neutral-800 text-neutral-400 line-through'
+                        : 'bg-neutral-100 dark:bg-neutral-800')
                   }
                 >
-                  {t} <span className="opacity-60">{have}/{cap}</span>
+                  {t} <span className="opacity-60 ml-1 tabular-nums">{have}/{cap}</span>
                 </button>
               )
             })}
           </div>
-          <input
-            type="search"
-            placeholder="search player"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="mt-3 w-full rounded-md border border-neutral-300 dark:border-neutral-700 bg-transparent px-3 py-2 text-sm"
-          />
+
+          {/* Search + sort */}
+          <div className="mt-3 flex gap-2">
+            <input
+              type="search"
+              placeholder="Search player"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="flex-1 rounded-md border border-neutral-300 dark:border-neutral-700 bg-transparent px-3 py-2 text-sm"
+            />
+            <select
+              value={sortKey}
+              onChange={(e) => setSortKey(e.target.value as SortKey)}
+              className="rounded-md border border-neutral-300 dark:border-neutral-700 bg-transparent px-2 py-2 text-sm"
+            >
+              <option value="rank">Rank</option>
+              <option value="points">Points</option>
+              <option value="name">Name</option>
+            </select>
+          </div>
+
+          {/* Player list */}
           <ul className="mt-3 divide-y divide-neutral-200 dark:divide-neutral-800">
             {filteredAvailable.slice(0, 100).map((p) => {
               const cap = draft.tier_quota[activeTier] ?? 0
               const tierFull = (tierCounts[activeTier] ?? 0) >= cap
+              const flag = countryFlag(p.country)
               return (
-                <li key={p.id} className="py-2 flex items-center justify-between text-sm">
-                  <div>
-                    <span className="font-medium">{p.full_name}</span>
-                    <span className="ml-2 text-xs text-neutral-500">
-                      #{p.current_rank ?? '?'} · {(p.current_season_points ?? 0).toLocaleString()} pts
-                    </span>
+                <li key={p.id} className="py-3 flex items-center gap-3">
+                  <span className="text-xl leading-none" aria-hidden>
+                    {flag || '·'}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="font-medium text-sm truncate">{p.full_name}</div>
+                    <div className="text-xs text-neutral-500 flex gap-2 mt-0.5">
+                      <span className="tabular-nums">#{p.current_rank ?? '?'}</span>
+                      <span>·</span>
+                      <span className="tabular-nums">
+                        {(p.current_season_points ?? 0).toLocaleString()} pts
+                      </span>
+                      {p.country && (
+                        <>
+                          <span>·</span>
+                          <span>{p.country}</span>
+                        </>
+                      )}
+                    </div>
                   </div>
                   <button
                     onClick={() => onPick(p)}
                     disabled={!myTurn || pending || tierFull}
-                    className="rounded bg-black text-white px-2.5 py-1 text-xs disabled:opacity-30 dark:bg-white dark:text-black"
+                    className="rounded-md bg-black text-white px-3 py-2 text-xs sm:text-sm disabled:opacity-30 dark:bg-white dark:text-black min-w-[64px]"
                   >
-                    pick
+                    Pick
                   </button>
                 </li>
               )
             })}
             {filteredAvailable.length === 0 && (
-              <li className="py-3 text-sm text-neutral-500">No available players in this tier.</li>
+              <li className="py-6 text-sm text-neutral-500 text-center">
+                No available players in this tier.
+              </li>
             )}
           </ul>
         </section>
 
-        <aside>
-          <h2 className="text-sm font-medium uppercase tracking-wide text-neutral-500">Rosters</h2>
-          <div className="mt-3 space-y-4">
-            {members.map((m) => {
-              const picks = rosters.filter((r) => r.userId === m.userId)
-              return (
-                <div key={m.userId} className="rounded-md border border-neutral-200 dark:border-neutral-800 p-3">
-                  <div className="flex items-baseline justify-between">
-                    <span className="font-medium text-sm">{m.name}</span>
-                    <span className="text-xs text-neutral-500">{picks.length} picks</span>
+        {/* Rosters + history (desktop sidebar, mobile collapsible) */}
+        <aside className={(showRoster ? 'block' : 'hidden') + ' lg:block space-y-6'}>
+          <div>
+            <h2 className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+              Recent picks
+            </h2>
+            <ol className="mt-2 space-y-1 text-xs">
+              {history.slice(0, 8).map((r, i) => (
+                <li key={(r.draftedAt ?? '') + r.player.id} className="flex gap-2">
+                  <span className="text-neutral-400 tabular-nums w-6">
+                    #{rosters.length - i}
+                  </span>
+                  <span className="flex-1 truncate">
+                    <span className="text-neutral-500">{memberName(r.userId)}:</span>{' '}
+                    <span className="font-medium">{r.player.full_name}</span>
+                  </span>
+                  <span className="text-neutral-400">{r.tier}</span>
+                </li>
+              ))}
+              {history.length === 0 && (
+                <li className="text-neutral-500">No picks yet.</li>
+              )}
+            </ol>
+          </div>
+
+          <div>
+            <h2 className="text-xs font-medium uppercase tracking-wide text-neutral-500">
+              Rosters
+            </h2>
+            <div className="mt-2 space-y-3">
+              {members.map((m) => {
+                const picks = rosters.filter((r) => r.userId === m.userId)
+                return (
+                  <div
+                    key={m.userId}
+                    className="rounded-md border border-neutral-200 dark:border-neutral-800 p-3"
+                  >
+                    <div className="flex items-baseline justify-between">
+                      <span className="font-medium text-sm">{m.name}</span>
+                      <span className="text-xs text-neutral-500">{picks.length}</span>
+                    </div>
+                    <ul className="mt-2 space-y-0.5 text-xs">
+                      {picks.map((r) => (
+                        <li key={r.player.id} className="flex gap-1.5">
+                          <span aria-hidden>{countryFlag(r.player.country)}</span>
+                          <span className="truncate flex-1">{r.player.full_name}</span>
+                          <span className="text-neutral-400">{r.tier}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="mt-2 space-y-0.5 text-xs">
-                    {picks.map((r) => (
-                      <li key={r.player.id}>
-                        <span className="text-neutral-500">{r.tier}:</span> {r.player.full_name}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
         </aside>
       </div>
