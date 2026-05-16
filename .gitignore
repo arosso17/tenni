@@ -1,0 +1,23 @@
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# env
+.env
+.env.local
+.env.*.local
+
+# data
+data/sheet_dump/
+*.xlsx
+
+# misc
+.DS_Store
+*.log
+.vercel
+.turbo
+coverage/
+.pytest_cache/
+__pycache__/

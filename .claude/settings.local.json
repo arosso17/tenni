@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:docs.google.com)",
+      "Bash(python -c \"import openpyxl; print\\('ok'\\)\")",
+      "Bash(python -m pip install openpyxl --quiet)",
+      "Bash(python *)",
+      "WebFetch(domain:rapidapi.com)",
+      "WebFetch(domain:tennisapidoc.matchstat.com)",
+      "Bash(npm --version)",
+      "Bash(npx --yes create-next-app@latest . --ts --tailwind --app --import-alias \"@/*\" --eslint --use-npm --yes)",
+      "Bash(npx --yes create-next-app@latest _scaffold --ts --tailwind --app --import-alias \"@/*\" --eslint --use-npm --yes)",
+      "Bash(npx --yes create-next-app@latest tenni-app --ts --tailwind --app --import-alias \"@/*\" --eslint --use-npm --yes)",
+      "PowerShell(Remove-Item *)",
+      "Bash(npm install *)",
+      "Bash(npx tsc *)",
+      "Bash(git init *)",
+      "Bash(git add *)"
+    ]
+  }
+}
