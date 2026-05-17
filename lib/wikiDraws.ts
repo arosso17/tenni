@@ -58,18 +58,24 @@ async function findArticle(year: number, name: string, tour: 'ATP' | 'WTA'): Pro
   return null
 }
 
+function stripDisambig(name: string): string {
+  // Wikipedia link targets often include `(tennis)`, `(tennis player)`,
+  // `(disambiguation)` suffixes. Strip a single trailing `(...)` chunk.
+  return name.replace(/\s*\([^)]*\)\s*$/, '').trim()
+}
+
 function parsePlayer(team: string): { name: string | null; country: string | null } {
   if (!team) return { name: null, country: null }
   const flag = team.match(FLAG_RE)
   const country = flag ? flag[1].toUpperCase() : null
   const link = team.match(LINK_RE)
-  if (link) return { name: link[1].trim(), country }
+  if (link) return { name: stripDisambig(link[1].trim()), country }
   const cleaned = team
     .replace(/\{\{[^}]*\}\}/g, '')
     .replace(/<[^>]+>/g, '')
     .replace(/'/g, '')
     .trim()
-  return { name: cleaned || null, country }
+  return { name: stripDisambig(cleaned) || null, country }
 }
 
 function maskInnerPipes(text: string): string {

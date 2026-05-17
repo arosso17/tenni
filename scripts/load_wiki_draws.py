@@ -125,6 +125,13 @@ def find_article(year: int, name: str, tour: str) -> str | None:
     return None
 
 
+_DISAMBIG_RE = re.compile(r"\s*\([^)]*\)\s*$")
+
+
+def _strip_disambig(name: str) -> str:
+    return _DISAMBIG_RE.sub("", name).strip()
+
+
 def parse_player(team_param: str) -> tuple[str | None, str | None]:
     """Return (player_name, ioc) from a RD1-teamNN value."""
     if not team_param:
@@ -135,12 +142,12 @@ def parse_player(team_param: str) -> tuple[str | None, str | None]:
         ioc = m.group(1).upper()
     link = LINK_RE.search(team_param)
     if link:
-        name = link.group(1).strip()
-        return name, ioc
+        return _strip_disambig(link.group(1).strip()) or None, ioc
     # Plain text fallback.
     cleaned = re.sub(r"\{\{[^}]*\}\}", "", team_param)
     cleaned = re.sub(r"<[^>]+>", "", cleaned).strip()
     cleaned = cleaned.strip("'\" ")
+    cleaned = _strip_disambig(cleaned)
     return (cleaned or None), ioc
 
 

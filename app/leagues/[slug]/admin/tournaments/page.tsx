@@ -16,7 +16,7 @@ async function addTournament(formData: FormData) {
 
   const { data: t } = await admin
     .from('tournaments')
-    .select('category, end_date')
+    .select('category, start_date')
     .eq('id', tournamentId)
     .single()
   if (!t) return
@@ -26,7 +26,7 @@ async function addTournament(formData: FormData) {
     league_id: league.id,
     tournament_id: tournamentId,
     pick_config: cfg,
-    picks_lock_at: t.end_date ? new Date(`${t.end_date}T00:00:00Z`).toISOString() : null,
+    picks_lock_at: t.start_date ? new Date(`${t.start_date}T00:00:00Z`).toISOString() : null,
   })
   revalidatePath(`/leagues/${slug}/admin/tournaments`)
 }
