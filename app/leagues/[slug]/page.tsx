@@ -83,6 +83,19 @@ export default async function LeagueDashboard({
           ))}
         </div>
       </section>
+
+      <section className="mt-12">
+        <h2 className="text-sm font-medium uppercase tracking-wide text-neutral-500">
+          Tournaments
+        </h2>
+        <Link
+          href={`/leagues/${league.slug}/tournaments`}
+          className="mt-3 block rounded-md border border-neutral-200 dark:border-neutral-800 p-4 hover:border-black dark:hover:border-white transition-colors"
+        >
+          <div className="font-medium">Per-event drafts</div>
+          <div className="text-xs text-neutral-500 mt-1">Calendar + picks + live scoring</div>
+        </Link>
+      </section>
     </main>
   )
 }

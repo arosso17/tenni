@@ -83,13 +83,14 @@ export default async function LeagueTournamentsAdmin({
       .eq('league_id', league.id)
       .order('picks_lock_at', { ascending: true }),
     (async () => {
+      const filterYear = year ?? String(league.season_year)
       let query = admin
         .from('tournaments')
         .select('id, name, tour, category, start_date, end_date')
         .order('start_date', { ascending: true })
         .limit(80)
       if (q) query = query.ilike('name', `%${q}%`)
-      if (year) query = query.gte('start_date', `${year}-01-01`).lte('start_date', `${year}-12-31`)
+      query = query.gte('start_date', `${filterYear}-01-01`).lte('start_date', `${filterYear}-12-31`)
       return query
     })(),
   ])

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { requireLeagueMember } from '@/lib/auth'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { countryFlag } from '@/lib/flag'
 
 export const dynamic = 'force-dynamic'
 
@@ -32,7 +33,7 @@ export default async function YearLongPage({
       .eq('league_id', league.id),
     admin
       .from('year_long_rosters')
-      .select('user_id, tier, players(id, full_name, current_rank, current_season_points)')
+      .select('user_id, tier, players:players!year_long_rosters_player_id_fkey(id, full_name, country, current_rank, current_season_points)')
       .eq('league_id', league.id)
       .eq('tour', tour),
   ])
@@ -44,7 +45,7 @@ export default async function YearLongPage({
     ])
   )
 
-  type Pick = { player: { id: string; full_name: string; current_rank: number | null; current_season_points: number | null }; tier: string }
+  type Pick = { player: { id: string; full_name: string; country: string | null; current_rank: number | null; current_season_points: number | null }; tier: string }
   const byUser = new Map<string, Pick[]>()
   for (const r of rosters ?? []) {
     const player = Array.isArray(r.players) ? r.players[0] : r.players
@@ -97,31 +98,84 @@ export default async function YearLongPage({
             No rosters yet. {isAdmin ? 'Set up the draft to begin.' : 'Waiting on the admin to start the draft.'}
           </p>
         ) : (
-          <ol className="mt-3 divide-y divide-neutral-200 dark:divide-neutral-800">
-            {standings.map((row, i) => (
-              <li key={row.userId} className="py-3">
-                <div className="flex items-baseline justify-between">
-                  <span className="font-medium">
-                    {i + 1}. {row.name}
-                  </span>
-                  <span className="text-sm tabular-nums">{row.total.toLocaleString()} pts</span>
-                </div>
-                <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-xs">
-                  {TIERS.map((tier) => {
-                    const tierPicks = row.picks.filter((p) => p.tier === tier)
-                    if (tierPicks.length === 0) return null
-                    return (
-                      <div key={tier}>
-                        <span className="text-neutral-500">{tier}:</span>{' '}
-                        {tierPicks
-                          .map((p) => `${p.player.full_name} (${(p.player.current_season_points ?? 0).toLocaleString()})`)
-                          .join(', ')}
+          <ol className="mt-4 space-y-4">
+            {standings.map((row, i) => {
+              const lead = standings[0].total
+              const pct = lead > 0 ? Math.max(4, Math.round((row.total / lead) * 100)) : 0
+              return (
+                <li
+                  key={row.userId}
+                  className="rounded-lg border border-neutral-200 dark:border-neutral-800 overflow-hidden"
+                >
+                  <div className="flex items-center gap-3 px-4 py-3 bg-neutral-50 dark:bg-neutral-900">
+                    <span
+                      className={
+                        'h-7 w-7 rounded-full flex items-center justify-center text-xs font-semibold ' +
+                        (i === 0
+                          ? 'bg-yellow-400 text-black'
+                          : i === 1
+                            ? 'bg-neutral-300 text-black'
+                            : i === 2
+                              ? 'bg-amber-600 text-white'
+                              : 'bg-neutral-200 dark:bg-neutral-800 text-neutral-700 dark:text-neutral-300')
+                      }
+                    >
+                      {i + 1}
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-semibold truncate">{row.name}</div>
+                      <div className="mt-1 h-1.5 rounded-full bg-neutral-200 dark:bg-neutral-800 overflow-hidden">
+                        <div
+                          className="h-full bg-emerald-500"
+                          style={{ width: `${pct}%` }}
+                        />
                       </div>
-                    )
-                  })}
-                </div>
-              </li>
-            ))}
+                    </div>
+                    <div className="text-right">
+                      <div className="text-base sm:text-lg font-semibold tabular-nums">
+                        {row.total.toLocaleString()}
+                      </div>
+                      <div className="text-[10px] uppercase tracking-wide text-neutral-500">pts</div>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 px-4 py-3 text-xs">
+                    {TIERS.map((tier) => {
+                      const tierPicks = row.picks.filter((p) => p.tier === tier)
+                      if (tierPicks.length === 0) return null
+                      return (
+                        <div key={tier}>
+                          <div className="text-[10px] uppercase tracking-wide text-neutral-500">
+                            {tier}
+                          </div>
+                          <ul className="mt-1 space-y-0.5">
+                            {tierPicks
+                              .slice()
+                              .sort(
+                                (a, b) =>
+                                  (b.player.current_season_points ?? 0) -
+                                  (a.player.current_season_points ?? 0)
+                              )
+                              .map((p) => (
+                                <li
+                                  key={p.player.id}
+                                  className="flex items-center gap-1.5"
+                                >
+                                  <span aria-hidden>{countryFlag(p.player.country)}</span>
+                                  <span className="truncate flex-1">{p.player.full_name}</span>
+                                  <span className="tabular-nums text-neutral-500">
+                                    {(p.player.current_season_points ?? 0).toLocaleString()}
+                                  </span>
+                                </li>
+                              ))}
+                          </ul>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </li>
+              )
+            })}
           </ol>
         )}
       </section>

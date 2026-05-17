@@ -52,7 +52,7 @@ export default async function DraftPage({
         .eq('league_id', league.id),
       admin
         .from('year_long_rosters')
-        .select('user_id, tier, player_id, drafted_at, players(id, full_name, country, current_rank, current_season_points)')
+        .select('user_id, tier, player_id, drafted_at, players:players!year_long_rosters_player_id_fkey(id, full_name, country, current_rank, current_season_points)')
         .eq('league_id', league.id)
         .eq('tour', tour)
         .order('drafted_at', { ascending: true }),
@@ -87,10 +87,9 @@ export default async function DraftPage({
       <main className="max-w-lg mx-auto px-4 py-8">
         <h1 className="text-2xl font-semibold">Set up {tour} year-long draft</h1>
         <PickOrderEditor
-          slug={slug}
-          tour={tour}
           members={memberRows}
           action={startDraft}
+          hiddenFields={{ slug, tour }}
         />
       </main>
     )

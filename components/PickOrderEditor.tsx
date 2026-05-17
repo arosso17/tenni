@@ -5,15 +5,15 @@ import { useState } from 'react'
 type Member = { userId: string; name: string }
 
 export default function PickOrderEditor({
-  slug,
-  tour,
   members,
   action,
+  hiddenFields,
+  submitLabel = 'Start draft',
 }: {
-  slug: string
-  tour: 'ATP' | 'WTA'
   members: Member[]
   action: (formData: FormData) => void | Promise<void>
+  hiddenFields: Record<string, string>
+  submitLabel?: string
 }) {
   const [order, setOrder] = useState<Member[]>(members)
   const [dragIdx, setDragIdx] = useState<number | null>(null)
@@ -39,8 +39,9 @@ export default function PickOrderEditor({
 
   return (
     <form action={action} className="mt-6 space-y-4">
-      <input type="hidden" name="slug" value={slug} />
-      <input type="hidden" name="tour" value={tour} />
+      {Object.entries(hiddenFields).map(([k, v]) => (
+        <input key={k} type="hidden" name={k} value={v} />
+      ))}
       <input
         type="hidden"
         name="order"
@@ -118,7 +119,7 @@ export default function PickOrderEditor({
         type="submit"
         className="w-full rounded-md bg-black text-white py-2 text-sm hover:bg-neutral-800 dark:bg-white dark:text-black"
       >
-        Start draft
+        {submitLabel}
       </button>
     </form>
   )
