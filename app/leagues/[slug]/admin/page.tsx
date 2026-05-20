@@ -103,14 +103,19 @@ export default async function AdminPage({
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-8 space-y-10">
-      <div className="flex items-baseline justify-between">
-        <h1 className="text-2xl font-semibold">{league.name} — Admin</h1>
-        <a
-          href={`/leagues/${slug}/admin/tournaments`}
-          className="text-sm underline"
-        >
-          Manage tournaments →
+      <div>
+        <a href={`/leagues/${slug}`} className="text-sm text-neutral-500 hover:underline">
+          ← {league.name}
         </a>
+        <div className="mt-1 flex items-baseline justify-between">
+          <h1 className="text-2xl font-semibold">Admin</h1>
+          <a
+            href={`/leagues/${slug}/admin/tournaments`}
+            className="text-sm underline"
+          >
+            Manage tournaments →
+          </a>
+        </div>
       </div>
 
       <section>

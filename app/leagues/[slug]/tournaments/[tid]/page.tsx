@@ -1,20 +1,121 @@
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
-import { requireLeagueMember } from '@/lib/auth'
+import { notFound, redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
+import { requireLeagueAdmin, requireLeagueMember } from '@/lib/auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { countryFlag } from '@/lib/flag'
+import { scrapeWikiResults } from '@/lib/wikiDraws'
 
 export const dynamic = 'force-dynamic'
+export const maxDuration = 60
 
 const TIERS = ['top8', '9-16', 'unseeded'] as const
 
+const ROUND_RANK: Record<string, number> = {
+  R128: 1, R64: 2, R32: 3, R16: 4, QF: 5, SF: 6, F: 7, W: 8, RR: 3,
+}
+
+async function pullLiveScores(formData: FormData) {
+  'use server'
+  const slug = String(formData.get('slug'))
+  const tid = String(formData.get('tid'))
+  await requireLeagueAdmin(slug)
+  const admin = createAdminClient()
+
+  const { data: t } = await admin
+    .from('tournaments')
+    .select('id, name, tour, category, start_date')
+    .eq('id', tid)
+    .maybeSingle()
+  if (!t) throw new Error('tournament not found')
+
+  const year = parseInt((t.start_date ?? '').slice(0, 4), 10)
+  const { title, entries } = await scrapeWikiResults(
+    year,
+    t.name,
+    t.tour as 'ATP' | 'WTA',
+    t.category,
+  )
+  if (!title || entries.length === 0) {
+    redirect(`/leagues/${slug}/tournaments/${tid}?live=miss`)
+  }
+
+  const { data: existingRows } = await admin
+    .from('player_tournaments')
+    .select('player_id, round_reached, seed')
+    .eq('tournament_id', tid)
+  const existingByPid = new Map<string, { round_reached: string | null; seed: number | null }>(
+    (existingRows ?? []).map((r) => [r.player_id, r]),
+  )
+
+  const names = entries.map((e) => e.name)
+  const nameMap = new Map<string, string>()
+  for (let i = 0; i < names.length; i += 500) {
+    const chunk = names.slice(i, i + 500)
+    const { data } = await admin
+      .from('players')
+      .select('id, full_name')
+      .eq('tour', t.tour)
+      .in('full_name', chunk)
+    for (const p of data ?? []) nameMap.set(p.full_name, p.id)
+  }
+  const missing = names.filter((n) => !nameMap.has(n))
+  if (missing.length > 0) {
+    const rows = missing.map((n) => {
+      const e = entries.find((x) => x.name === n)
+      return { full_name: n, tour: t.tour, country: e?.country ?? null }
+    })
+    const { data } = await admin.from('players').insert(rows).select('id, full_name')
+    for (const p of data ?? []) nameMap.set(p.full_name, p.id)
+  }
+
+  const toUpsert: Array<{
+    tournament_id: string
+    player_id: string
+    seed: number | null
+    status: string
+    round_reached: string | null
+    points_earned: number
+  }> = []
+  for (const e of entries) {
+    const pid = nameMap.get(e.name)
+    if (!pid) continue
+    const ex = existingByPid.get(pid)
+    const wikiRank = ROUND_RANK[e.round_reached] ?? 0
+    const exRank = ex?.round_reached ? ROUND_RANK[ex.round_reached] ?? 0 : 0
+    if (wikiRank > exRank) {
+      toUpsert.push({
+        tournament_id: tid,
+        player_id: pid,
+        seed: e.seed ?? ex?.seed ?? null,
+        status: e.round_reached === 'W' ? 'completed' : 'entered',
+        round_reached: e.round_reached || null,
+        points_earned: e.points_earned,
+      })
+    }
+  }
+  if (toUpsert.length > 0) {
+    await admin.from('player_tournaments').upsert(toUpsert, {
+      onConflict: 'tournament_id,player_id',
+    })
+  }
+
+  revalidatePath(`/leagues/${slug}/tournaments/${tid}`)
+  revalidatePath(`/leagues/${slug}/year-long/${t.tour.toLowerCase()}`)
+  revalidatePath(`/leagues/${slug}/championship/${t.tour.toLowerCase()}`)
+  redirect(`/leagues/${slug}/tournaments/${tid}?live=${toUpsert.length}`)
+}
+
 export default async function LeagueTournamentPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string; tid: string }>
+  searchParams: Promise<{ live?: string }>
 }) {
   const { slug, tid } = await params
-  const { league, role } = await requireLeagueMember(slug)
+  const { live } = await searchParams
+  const { league, role, user } = await requireLeagueMember(slug)
   const admin = createAdminClient()
 
   const [
@@ -52,6 +153,7 @@ export default async function LeagueTournamentPage({
       )
       .eq('league_id', league.id)
       .eq('tournament_id', tid)
+      .is('replaced_by', null)
       .order('pick_number', { ascending: true }),
   ])
 
@@ -131,7 +233,19 @@ export default async function LeagueTournamentPage({
               {tournament.end_date ? ` – ${tournament.end_date}` : ''}
             </p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap">
+            {role === 'admin' && (
+              <form action={pullLiveScores}>
+                <input type="hidden" name="slug" value={slug} />
+                <input type="hidden" name="tid" value={tid} />
+                <button
+                  type="submit"
+                  className="rounded-md border border-neutral-300 dark:border-neutral-700 px-3 py-1.5 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-800"
+                >
+                  Pull live scores
+                </button>
+              </form>
+            )}
             {role === 'admin' && (
               <Link
                 href={`/leagues/${slug}/tournaments/${tid}/admin`}
@@ -158,6 +272,21 @@ export default async function LeagueTournamentPage({
           <p className="text-xs text-neutral-500 mt-2">
             Picks lock at {new Date(lt.picks_lock_at).toLocaleString()}
           </p>
+        )}
+        {live === 'miss' && (
+          <div className="mt-3 rounded-md border border-amber-300 bg-amber-50 dark:bg-amber-950/30 px-3 py-2 text-sm text-amber-700 dark:text-amber-300">
+            No Wikipedia results found. The article may not exist yet, or the bracket has no completed matches.
+          </div>
+        )}
+        {live === '0' && (
+          <div className="mt-3 rounded-md border border-neutral-300 dark:border-neutral-700 px-3 py-2 text-sm text-neutral-600 dark:text-neutral-400">
+            Scores up to date.
+          </div>
+        )}
+        {live && live !== 'miss' && live !== '0' && (
+          <div className="mt-3 rounded-md border border-emerald-300 bg-emerald-50 dark:bg-emerald-950/30 px-3 py-2 text-sm text-emerald-700 dark:text-emerald-300">
+            Scores updated ({live} {live === '1' ? 'row' : 'rows'}).
+          </div>
         )}
       </div>
 
@@ -222,6 +351,14 @@ export default async function LeagueTournamentPage({
                                   <span className="tabular-nums text-neutral-500">
                                     {p.points.toLocaleString()}
                                   </span>
+                                  {row.userId === user.id && (
+                                    <Link
+                                      href={`/leagues/${slug}/tournaments/${tid}/replace/${p.player.id}`}
+                                      className="text-[10px] uppercase tracking-wide text-neutral-500 hover:underline ml-1"
+                                    >
+                                      replace
+                                    </Link>
+                                  )}
                                 </li>
                               ))}
                             </ul>

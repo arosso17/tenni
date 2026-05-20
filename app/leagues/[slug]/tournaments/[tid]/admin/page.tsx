@@ -4,6 +4,9 @@ import { revalidatePath } from 'next/cache'
 import { requireLeagueAdmin } from '@/lib/auth'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { scrapeWikiDraw } from '@/lib/wikiDraws'
+import { scrapeSackmannEvent } from '@/lib/sackmannDraws'
+
+export const maxDuration = 60
 
 export const dynamic = 'force-dynamic'
 
@@ -144,6 +147,70 @@ async function loadFromWiki(formData: FormData) {
   )
 }
 
+async function loadFromSackmann(formData: FormData) {
+  'use server'
+  const slug = String(formData.get('slug'))
+  const tid = String(formData.get('tid'))
+  await requireLeagueAdmin(slug)
+  const admin = createAdminClient()
+
+  const { data: t } = await admin
+    .from('tournaments')
+    .select('id, name, tour, category, start_date')
+    .eq('id', tid)
+    .maybeSingle()
+  if (!t) throw new Error('tournament not found')
+
+  const year = parseInt((t.start_date ?? '').slice(0, 4), 10)
+  const { matched, sackmannName, entries } = await scrapeSackmannEvent(
+    year,
+    t.tour as 'ATP' | 'WTA',
+    t.name,
+    t.category,
+  )
+  if (!matched || entries.length === 0) {
+    redirect(`/leagues/${slug}/tournaments/${tid}/admin?sack=miss`)
+  }
+
+  for (const e of entries) {
+    let { data: existing } = await admin
+      .from('players')
+      .select('id')
+      .eq('full_name', e.name)
+      .eq('tour', t.tour)
+      .maybeSingle()
+    if (!existing) {
+      const ins = await admin
+        .from('players')
+        .insert({ full_name: e.name, tour: t.tour, country: e.country })
+        .select('id')
+        .single()
+      existing = ins.data
+    } else if (e.country) {
+      await admin.from('players').update({ country: e.country }).eq('id', existing.id)
+    }
+    if (!existing) continue
+    await admin.from('player_tournaments').upsert({
+      tournament_id: tid,
+      player_id: existing.id,
+      seed: e.seed,
+      status: e.round_reached === 'W' ? 'completed' : 'entered',
+      round_reached: e.round_reached || null,
+      points_earned: e.points_earned,
+    })
+  }
+
+  revalidatePath(`/leagues/${slug}/tournaments/${tid}`)
+  revalidatePath(`/leagues/${slug}/tournaments/${tid}/admin`)
+  revalidatePath(`/leagues/${slug}/year-long/atp`)
+  revalidatePath(`/leagues/${slug}/year-long/wta`)
+  revalidatePath(`/leagues/${slug}/championship/atp`)
+  revalidatePath(`/leagues/${slug}/championship/wta`)
+  redirect(
+    `/leagues/${slug}/tournaments/${tid}/admin?sack=${entries.length}&sackname=${encodeURIComponent(sackmannName ?? '')}`,
+  )
+}
+
 function parseDraw(raw: string): DrawEntry[] {
   const trimmed = raw.trim()
   if (!trimmed) return []
@@ -179,10 +246,10 @@ export default async function TournamentAdminPage({
   searchParams,
 }: {
   params: Promise<{ slug: string; tid: string }>
-  searchParams: Promise<{ ok?: string; wiki?: string; title?: string }>
+  searchParams: Promise<{ ok?: string; wiki?: string; title?: string; sack?: string; sackname?: string }>
 }) {
   const { slug, tid } = await params
-  const { ok, wiki, title: wikiTitle } = await searchParams
+  const { ok, wiki, title: wikiTitle, sack, sackname } = await searchParams
   const { league } = await requireLeagueAdmin(slug)
   const admin = createAdminClient()
 
@@ -237,6 +304,38 @@ export default async function TournamentAdminPage({
           .
         </div>
       )}
+
+      {sack === 'miss' && (
+        <div className="rounded-md border border-amber-300 bg-amber-50 dark:bg-amber-950/30 px-3 py-2 text-sm text-amber-700 dark:text-amber-300">
+          No Sackmann match block found. CSV updates after each tournament ends — try again later.
+        </div>
+      )}
+      {sack && sack !== 'miss' && (
+        <div className="rounded-md border border-emerald-300 bg-emerald-50 dark:bg-emerald-950/30 px-3 py-2 text-sm text-emerald-700 dark:text-emerald-300">
+          Loaded {sack} entries from Sackmann{sackname ? ` (${sackname})` : ''} with round_reached + points.
+        </div>
+      )}
+
+      <section>
+        <h2 className="text-sm font-medium uppercase tracking-wide text-neutral-500">
+          Load scores from Sackmann
+        </h2>
+        <p className="mt-2 text-xs text-neutral-500">
+          Downloads this year&apos;s match CSV from Jeff Sackmann&apos;s GitHub, matches this event by name, and
+          fills in <code>round_reached</code> + <code>points_earned</code> for every player. Run after each
+          round / when the event ends. Free, no API quota.
+        </p>
+        <form action={loadFromSackmann} className="mt-3 flex items-center gap-3">
+          <input type="hidden" name="slug" value={slug} />
+          <input type="hidden" name="tid" value={tid} />
+          <button
+            type="submit"
+            className="ml-auto rounded-md bg-black text-white px-4 py-2 text-sm dark:bg-white dark:text-black"
+          >
+            Pull scores from Sackmann
+          </button>
+        </form>
+      </section>
 
       <section>
         <h2 className="text-sm font-medium uppercase tracking-wide text-neutral-500">

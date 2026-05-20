@@ -55,6 +55,7 @@ export default async function DraftPage({
         .select('user_id, tier, player_id, drafted_at, players:players!year_long_rosters_player_id_fkey(id, full_name, country, current_rank, current_season_points)')
         .eq('league_id', league.id)
         .eq('tour', tour)
+        .is('replaced_by', null)
         .order('drafted_at', { ascending: true }),
       admin
         .from('players_with_tier')
@@ -97,7 +98,29 @@ export default async function DraftPage({
 
   // Active or completed draft: render the room.
   const drafted = new Set((rosters ?? []).map((r) => r.player_id))
-  const available = (players ?? []).filter((p) => !drafted.has(p.id))
+  const candidateIds = (players ?? []).map((p) => p.id)
+  const rosterIds = (rosters ?? [])
+    .map((r) => {
+      const p = Array.isArray(r.players) ? r.players[0] : r.players
+      return (p as { id?: string } | null)?.id
+    })
+    .filter((x): x is string => !!x)
+  const allPlayerIds = Array.from(new Set([...candidateIds, ...rosterIds]))
+
+  let ytdByPlayer = new Map<string, number>()
+  if (allPlayerIds.length) {
+    const { data: ytdRows } = await admin
+      .from('player_ytd_points')
+      .select('player_id, ytd_points')
+      .eq('season_year', league.season_year)
+      .eq('tour', tour)
+      .in('player_id', allPlayerIds)
+    ytdByPlayer = new Map((ytdRows ?? []).map((r) => [r.player_id, r.ytd_points ?? 0]))
+  }
+
+  const available = (players ?? [])
+    .filter((p) => !drafted.has(p.id))
+    .map((p) => ({ ...p, current_season_points: ytdByPlayer.get(p.id) ?? 0 }))
 
   return (
     <DraftRoom
@@ -107,12 +130,21 @@ export default async function DraftPage({
       userId={user.id}
       members={memberRows}
       initialDraft={draft}
-      initialRosters={(rosters ?? []).map((r) => ({
-        userId: r.user_id,
-        tier: r.tier,
-        draftedAt: r.drafted_at,
-        player: Array.isArray(r.players) ? r.players[0] : r.players,
-      })).filter((r) => r.player)}
+      initialRosters={(rosters ?? [])
+        .map((r) => {
+          const raw = Array.isArray(r.players) ? r.players[0] : r.players
+          if (!raw) return null
+          return {
+            userId: r.user_id,
+            tier: r.tier,
+            draftedAt: r.drafted_at,
+            player: {
+              ...raw,
+              current_season_points: ytdByPlayer.get(raw.id) ?? 0,
+            },
+          }
+        })
+        .filter((r): r is NonNullable<typeof r> => r !== null)}
       availablePlayers={available}
     />
   )

@@ -70,6 +70,7 @@ export default async function TournamentDraftPage({
       )
       .eq('league_id', league.id)
       .eq('tournament_id', tid)
+      .is('replaced_by', null)
       .order('pick_number', { ascending: true }),
     admin
       .from('draw_with_tier')

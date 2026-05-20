@@ -49,7 +49,8 @@ export default async function ChampionshipPage({
         .from('tournament_picks')
         .select('tournament_id, user_id, player_id')
         .eq('league_id', league.id)
-        .in('tournament_id', tournamentIds),
+        .in('tournament_id', tournamentIds)
+        .is('replaced_by', null),
       admin
         .from('player_tournaments')
         .select('tournament_id, player_id, points_earned')
